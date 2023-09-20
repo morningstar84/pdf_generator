@@ -1,0 +1,24 @@
+version: '3.6'
+
+volumes:
+  volume_log:
+  volume_file:
+
+networks:
+  pdf_service_network:
+    driver: bridge
+
+services:
+  pdf_generator_service:
+    container_name: "pdf_generator_service"
+    hostname: "pdf_generator_service"
+    build:
+      context: .
+    ports:
+      - 80:80
+    restart: always
+    volumes:
+      - volume_file:/pdfs
+    command: ["dotnet","pdf_generator.api.dll"]
+    networks:
+      - pdf_service_network
